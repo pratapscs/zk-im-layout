@@ -70,29 +70,6 @@ const App = () => (
 
 export default App;
 ```
-
-## Built-in Features
-- Collapsible Nav
-
-  ![Alt Text](https://media.giphy.com/media/1BgIQWDxSNQHZS0HiN/giphy.gif)
-- Header Magnet
-
-  ![alt text](https://media.giphy.com/media/L0ZQCiCrFiVKaHb5St/giphy.gif)
-- Auto Collapsed
-
-  ![alt text](https://media.giphy.com/media/XbySngD0dtVnHeDq1a/giphy.gif)
-- Responsive Config
-  ```
-  const extendedConfigs2 = {
-    ...defaultConfig,
-  
-    // navVariant is 'temporary' in mobile and tablet, 'permanent' in desktop and greater
-    navVariant: {
-      xs: 'temporary',
-      md: 'permanent',
-    },
-  ```
-  
 ## Custom Styles
 Mostly, you will custom `Header` & `Nav`. This is an example for `Header`
 
