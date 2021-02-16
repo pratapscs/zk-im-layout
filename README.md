@@ -1,4 +1,4 @@
-# Material-UI Layout [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-green.svg)](https://github.com/pratapscs/zk-im-layout/pulls)
+# ZK-IM-Layout [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-green.svg)](https://github.com/pratapscs/zk-im-layout/pulls)
 
 A set of components that allows you to build dynamic and responsive layout based on Material-UI-Components
 
