@@ -1,10 +1,6 @@
-# This project is moved to [mui-treasury](https://github.com/siriwatknp/mui-treasury/tree/master/packages/mui-layout)
+# Material-UI Layout [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-green.svg)](https://github.com/pratapscs/zk-im-layout/pulls)
 
-<img src="https://user-images.githubusercontent.com/18292247/60601737-cb425a00-9ddc-11e9-8cb7-642fa581aa3d.png" alt="logo" width="150" height="136" />
-
-# Material-UI Layout [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-green.svg)](https://github.com/siriwatknp/mui-layout/pulls)
-
-A set of components that allows you to build dynamic and responsive layout based on Material-UI
+A set of components that allows you to build dynamic and responsive layout based on Material-UI-Components
 
 ## Prerequisites
 This project based on [React Material-UI](https://material-ui.com/), so you have to install `@material-ui/core @material-ui/styles`
@@ -13,14 +9,15 @@ This project based on [React Material-UI](https://material-ui.com/), so you have
 
 ```bash
 // yarn
-yarn add mui-layout @material-ui/core @material-ui/styles @material-ui/icons
+yarn add zk-im-layout
 
 // npm
-npm install mui-layout @material-ui/core @material-ui/styles @material-ui/icons
+npm install zk-im-layout
+
 ```
 
 ## Demo
-see demo here [Storybook Demo](https://siriwatknp.github.io/mui-layout/?path=/story/welcome--introduction)
+see demo here [Storybook Demo](https://github.com/pratapscs/zk-im-layout/?path=/story/welcome--introduction)
 
 
 ## Usage
@@ -144,20 +141,6 @@ function App() {
 }
 ```
   
-## Presets
-- Standard
-
-  ![Alt Text](https://media.giphy.com/media/1jXGr4qb8dVizIUudS/giphy.gif)
-- Fixed
-
-  ![Alt Text](https://media.giphy.com/media/fnW25ZYsCtCyrX2aho/giphy.gif)
-- Content Based
-  
-  ![Alt Text](https://media.giphy.com/media/1ZnFrQUZpCibwtTGj9/giphy.gif)
-- Cozy
-
-  ![Alt Text](https://media.giphy.com/media/w9d1LsOBFndXpzV62z/giphy.gif)
-
 ## How it works
 - They are basically material-ui components that are combined to make things easier.
 `AppBar`, `Toolbar`, `Drawer`
