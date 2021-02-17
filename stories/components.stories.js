@@ -1,6 +1,5 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-
 import ChevronLeft from '@material-ui/icons/ChevronLeft';
 import ChevronRight from '@material-ui/icons/ChevronRight';
 import MenuRounded from '@material-ui/icons/MenuRounded';
@@ -9,6 +8,15 @@ import Header from 'components/Header';
 import Nav from 'components/Nav';
 import Content from 'components/Content';
 import Footer from 'components/Footer';
+import ChatBar from 'components/ChatBar';
+import ChatDialog from 'components/ChatDialog';
+import ChatList from 'components/ChatList';
+import ChatListItem from 'components/ChatListItem';
+import ChatMsg from 'components/ChatMsg';
+import ChatSettings from 'components/ChatSettings';
+import ConversationHead from 'components/ConversationHead';
+import IMMessages from 'components/IMMessages';
+import MessengerSearch from 'components/MessengerSearch';
 
 // MOCK
 import NavContentEx from './mock/NavContentEx';
@@ -20,12 +28,50 @@ import FooterEx from './mock/FooterEx';
 // storiesOf('Welcome', module).add('to Storybook', () => <Welcome showApp={linkTo('Button')} />);
 
 storiesOf('Components', module)
+
+  .add('ChatBar', () => (
+    <ChatBar></ChatBar>
+  ))
+
+  .add('ChatDialog', () => (
+    <ChatDialog></ChatDialog>
+  ))
+
+  .add('ChatList', () => (
+    <ChatList></ChatList>
+  ))
+
+  .add('ChatListItem', () => (
+    <ChatListItem></ChatListItem>
+  ))
+
+  .add('ChatMsg', () => (
+    <ChatMsg></ChatMsg>
+  ))
+
+  .add('ChatSettings', () => (
+    <ChatSettings></ChatSettings>
+  ))
+
+  .add('ConversationHead', () => (
+    <ConversationHead></ConversationHead>
+  ))
+
+  .add('IMMessages', () => (
+    <IMMessages></IMMessages>
+  ))
+
+  .add('MessengerSearch', () => (
+    <MessengerSearch></MessengerSearch>
+  ))
+
   .add('Root', () => (
     <Root>
       <code>Root</code> is just a Provider, it does not return any DOM on the
       screen.
     </Root>
   ))
+
   .add('Header', () => (
     <Root>
       <Header
@@ -33,6 +79,7 @@ storiesOf('Components', module)
       />
     </Root>
   ))
+
   .add('Header (mock children)', () => (
     <Root>
       <Header
@@ -44,6 +91,7 @@ storiesOf('Components', module)
       </Header>
     </Root>
   ))
+
   .add('Nav', () => (
     <Root>
       <Header
@@ -56,6 +104,7 @@ storiesOf('Components', module)
       />
     </Root>
   ))
+
   .add('Nav (mock children)', () => (
     <Root>
       <Header
@@ -71,6 +120,7 @@ storiesOf('Components', module)
       </Nav>
     </Root>
   ))
+  
   .add('Content', () => (
     <Root>
       <Content>
@@ -78,6 +128,7 @@ storiesOf('Components', module)
       </Content>
     </Root>
   ))
+
   .add('Footer', () => (
     <Root>
       <Footer>

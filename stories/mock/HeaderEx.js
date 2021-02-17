@@ -114,6 +114,7 @@ HeaderEx.propTypes = {
   screen: PropTypes.string,
   classes: PropTypes.shape({}).isRequired,
 };
+
 HeaderEx.defaultProps = {
   screen: null,
 };
