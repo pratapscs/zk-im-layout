@@ -17,13 +17,13 @@ var _styles = require("@material-ui/core/styles");
 
 var _layout = _interopRequireWildcard(require("@mui-treasury/layout"));
 
-var _ConferenceHead = _interopRequireDefault(require("./ConferenceHead"));
-
-var _ConferenceTabs = _interopRequireDefault(require("./ConferenceTabs"));
-
 var _Box = _interopRequireDefault(require("@material-ui/core/Box"));
 
 var _Avatar = _interopRequireDefault(require("@material-ui/core/Avatar"));
+
+var _Button = _interopRequireDefault(require("@material-ui/core/Button"));
+
+var _colors = require("@material-ui/core/colors");
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
@@ -37,6 +37,14 @@ var Header = (0, _layout.getHeader)(_styledComponents["default"]);
 var Fullscreen = (0, _layout.getFullscreen)(_styledComponents["default"]);
 var useStyles = (0, _styles.makeStyles)(function () {
   return {
+    zoomButton: {
+      position: 'absolute',
+      top: '50%',
+      transform: 'translate(-50%, -50%)',
+      left: '50%',
+      color: theme.palette.getContrastText(_colors.purple[500]),
+      backgroundColor: "#35c573"
+    },
     header: {
       boxShadow: '0 1px 2px 0 rgba(0, 0, 0, .10)',
       backgroundColor: '#ffffff'
@@ -45,14 +53,6 @@ var useStyles = (0, _styles.makeStyles)(function () {
       fontSize: '18px',
       fontWeight: '700',
       fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"'
-    },
-    insetBody: {
-      borderLeft: '1px solid rgba(0, 0, 0, 0.08)',
-      overflowY: 'auto',
-      backgroundColor: '#fff'
-    },
-    edit: {
-      backgroundColor: 'rgba(0,0,0,0.04)'
     },
     FullscreenDiv: _defineProperty({
       marginLeft: '84px'
@@ -87,7 +87,7 @@ var theme = (0, _styles.responsiveFontSizes)((0, _styles.createMuiTheme)({
   }
 }));
 
-var Conference = function Conference() {
+var MeetingLogin = function MeetingLogin() {
   var styles = useStyles();
   var scheme = (0, _layout["default"])();
   scheme.configureHeader(function (builder) {
@@ -112,8 +112,11 @@ var Conference = function Conference() {
   })), /*#__PURE__*/_react["default"].createElement(_Box["default"], {
     p: 1,
     className: styles.meetingHeader
-  }, " Meeting "))), /*#__PURE__*/_react["default"].createElement("br", null), /*#__PURE__*/_react["default"].createElement(_ConferenceHead["default"], null), /*#__PURE__*/_react["default"].createElement("br", null), "  ", /*#__PURE__*/_react["default"].createElement("br", null), /*#__PURE__*/_react["default"].createElement(_ConferenceTabs["default"], null)));
+  }, " Meeting "))), /*#__PURE__*/_react["default"].createElement(_Button["default"], {
+    variant: "contained",
+    className: styles.zoomButton
+  }, "Zoom Login")));
 };
 
-var _default = Conference;
+var _default = MeetingLogin;
 exports["default"] = _default;

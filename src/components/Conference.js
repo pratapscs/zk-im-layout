@@ -6,6 +6,7 @@ import Layout, { Root, getHeader, getFullscreen } from '@mui-treasury/layout';
 import ConferenceHead from './ConferenceHead';
 import ConferenceTabs from './ConferenceTabs';
 import Box from "@material-ui/core/Box";
+import Avatar from '@material-ui/core/Avatar';
 
 const Header = getHeader(styled);
 const Fullscreen = getFullscreen(styled);
@@ -80,18 +81,21 @@ const Conference = () => {
   return (
     <Fullscreen className={styles.FullscreenDiv}>
       <Root theme={theme} scheme={scheme}>
-        {() => (
-          <>
             <CssBaseline />
+            
             <Header className={styles.header}>
-              <Box p={3} className={styles.meetingHeader}> Meeting </Box>
+              <Box display="flex" >
+                <Box p={1}>
+                  <Avatar src={'https://i.pravatar.cc/300?img=13'} />
+                </Box>
+              <Box p={1} className={styles.meetingHeader}> Meeting </Box>
+              </Box>
             </Header>
             <br />
             <ConferenceHead />
             <br />  <br />
             <ConferenceTabs />
-          </>
-        )}
+            
       </Root>
     </Fullscreen>
   );

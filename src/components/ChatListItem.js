@@ -70,19 +70,27 @@ const ChatListItem = ({
   avatar,
   name,
   info,
+  message,
+  sentTime,
+  firstName,
+  lastName,
+  email,
   responded,
+  index,
   concise,
+  contact,
+  onClick
 }) => {
   const styles = useStyles({ bold, active });
   return (
     <Box px={1} >
-      <ListItem className={cx(styles.root, styles.rootHover)}>
+      <ListItem className={cx(styles.root, styles.rootHover)} onClick={() => {onClick(contact)}}>
         <Avatar src={avatar} className={styles.avatar} />
         {/* {!concise && ( */}
           <>
-            <ListItemText
-              primary={name}
-              secondary={info}
+          <ListItemText
+              primary={firstName+" "+lastName}
+              secondary={message+" • "+sentTime}
               primaryTypographyProps={{ noWrap: true }}
               secondaryTypographyProps={{ noWrap: true }}
               classes={{ primary: styles.primary, secondary: styles.secondary }}

@@ -105,8 +105,16 @@ var ChatListItem = function ChatListItem(_ref5) {
       avatar = _ref5.avatar,
       name = _ref5.name,
       info = _ref5.info,
+      message = _ref5.message,
+      sentTime = _ref5.sentTime,
+      firstName = _ref5.firstName,
+      lastName = _ref5.lastName,
+      email = _ref5.email,
       responded = _ref5.responded,
-      concise = _ref5.concise;
+      index = _ref5.index,
+      concise = _ref5.concise,
+      contact = _ref5.contact,
+      _onClick = _ref5.onClick;
   var styles = useStyles({
     bold: bold,
     active: active
@@ -114,13 +122,16 @@ var ChatListItem = function ChatListItem(_ref5) {
   return /*#__PURE__*/_react["default"].createElement(_Box["default"], {
     px: 1
   }, /*#__PURE__*/_react["default"].createElement(_ListItem["default"], {
-    className: (0, _clsx["default"])(styles.root, styles.rootHover)
+    className: (0, _clsx["default"])(styles.root, styles.rootHover),
+    onClick: function onClick() {
+      _onClick(contact);
+    }
   }, /*#__PURE__*/_react["default"].createElement(_Avatar["default"], {
     src: avatar,
     className: styles.avatar
   }), /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement(_ListItemText["default"], {
-    primary: name,
-    secondary: info,
+    primary: firstName + " " + lastName,
+    secondary: message + " • " + sentTime,
     primaryTypographyProps: {
       noWrap: true
     },

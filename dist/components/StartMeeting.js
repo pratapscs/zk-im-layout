@@ -17,13 +17,9 @@ var _styles = require("@material-ui/core/styles");
 
 var _layout = _interopRequireWildcard(require("@mui-treasury/layout"));
 
-var _ConferenceHead = _interopRequireDefault(require("./ConferenceHead"));
-
-var _ConferenceTabs = _interopRequireDefault(require("./ConferenceTabs"));
-
 var _Box = _interopRequireDefault(require("@material-ui/core/Box"));
 
-var _Avatar = _interopRequireDefault(require("@material-ui/core/Avatar"));
+var _Button = _interopRequireDefault(require("@material-ui/core/Button"));
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
@@ -58,7 +54,10 @@ var useStyles = (0, _styles.makeStyles)(function () {
       marginLeft: '84px'
     }, theme.breakpoints.down('sm'), {
       marginLeft: '0px'
-    })
+    }),
+    startButton: {
+      backgroundColor: '#35c573'
+    }
   };
 });
 var theme = (0, _styles.responsiveFontSizes)((0, _styles.createMuiTheme)({
@@ -87,7 +86,7 @@ var theme = (0, _styles.responsiveFontSizes)((0, _styles.createMuiTheme)({
   }
 }));
 
-var Conference = function Conference() {
+var StartMeeting = function StartMeeting() {
   var styles = useStyles();
   var scheme = (0, _layout["default"])();
   scheme.configureHeader(function (builder) {
@@ -96,24 +95,61 @@ var Conference = function Conference() {
       initialHeight: 60
     });
   });
-  return /*#__PURE__*/_react["default"].createElement(Fullscreen, {
-    className: styles.FullscreenDiv
-  }, /*#__PURE__*/_react["default"].createElement(_layout.Root, {
-    theme: theme,
-    scheme: scheme
-  }, /*#__PURE__*/_react["default"].createElement(_CssBaseline["default"], null), /*#__PURE__*/_react["default"].createElement(Header, {
-    className: styles.header
-  }, /*#__PURE__*/_react["default"].createElement(_Box["default"], {
-    display: "flex"
-  }, /*#__PURE__*/_react["default"].createElement(_Box["default"], {
-    p: 1
-  }, /*#__PURE__*/_react["default"].createElement(_Avatar["default"], {
-    src: 'https://i.pravatar.cc/300?img=13'
-  })), /*#__PURE__*/_react["default"].createElement(_Box["default"], {
-    p: 1,
-    className: styles.meetingHeader
-  }, " Meeting "))), /*#__PURE__*/_react["default"].createElement("br", null), /*#__PURE__*/_react["default"].createElement(_ConferenceHead["default"], null), /*#__PURE__*/_react["default"].createElement("br", null), "  ", /*#__PURE__*/_react["default"].createElement("br", null), /*#__PURE__*/_react["default"].createElement(_ConferenceTabs["default"], null)));
+  return /*#__PURE__*/_react["default"].createElement(Fullscreen, null, /*#__PURE__*/_react["default"].createElement(_layout.Root, null, function () {
+    return /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement(_CssBaseline["default"], null), /*#__PURE__*/_react["default"].createElement(Header, {
+      className: styles.header
+    }, /*#__PURE__*/_react["default"].createElement("div", {
+      style: {
+        width: '100%'
+      }
+    }, /*#__PURE__*/_react["default"].createElement(_Box["default"], {
+      display: "flex"
+    }, /*#__PURE__*/_react["default"].createElement(_Box["default"], {
+      p: 1
+    }, /*#__PURE__*/_react["default"].createElement(_Button["default"], null, "Cancle")), /*#__PURE__*/_react["default"].createElement(_Box["default"], {
+      display: "flex",
+      p: 1,
+      justifyContent: "center"
+    }, /*#__PURE__*/_react["default"].createElement(_Box["default"], {
+      p: 1,
+      className: styles.meetingHeader
+    }, "Start Meeting"))))), /*#__PURE__*/_react["default"].createElement("br", null), /*#__PURE__*/_react["default"].createElement("br", null), /*#__PURE__*/_react["default"].createElement("br", null), /*#__PURE__*/_react["default"].createElement(_Box["default"], {
+      display: "flex",
+      p: 1,
+      bgcolor: "background.paper"
+    }, /*#__PURE__*/_react["default"].createElement(_Box["default"], {
+      p: 1,
+      flexGrow: 1,
+      bgcolor: "white.300"
+    }, /*#__PURE__*/_react["default"].createElement("b", null, "VideoOn")), /*#__PURE__*/_react["default"].createElement(_Box["default"], {
+      p: 1,
+      bgcolor: "white.300"
+    }, "Start")), /*#__PURE__*/_react["default"].createElement("br", null), /*#__PURE__*/_react["default"].createElement(_Box["default"], {
+      display: "flex",
+      p: 1,
+      bgcolor: "background.paper"
+    }, /*#__PURE__*/_react["default"].createElement(_Box["default"], {
+      p: 1,
+      flexGrow: 1,
+      bgcolor: "white.300"
+    }, /*#__PURE__*/_react["default"].createElement("b", null, "User Personal Meeting ID(PMI)")), /*#__PURE__*/_react["default"].createElement(_Box["default"], {
+      p: 1,
+      bgcolor: "white.300"
+    }, "Start")), /*#__PURE__*/_react["default"].createElement("br", null), /*#__PURE__*/_react["default"].createElement("div", {
+      style: {
+        width: '100%'
+      }
+    }, /*#__PURE__*/_react["default"].createElement(_Box["default"], {
+      display: "flex",
+      p: 1,
+      justifyContent: "center"
+    }, /*#__PURE__*/_react["default"].createElement(_Box["default"], {
+      p: 1
+    }, /*#__PURE__*/_react["default"].createElement(_Button["default"], {
+      className: styles.startButton
+    }, /*#__PURE__*/_react["default"].createElement("b", null, "Start Meeting"))))));
+  }));
 };
 
-var _default = Conference;
+var _default = StartMeeting;
 exports["default"] = _default;

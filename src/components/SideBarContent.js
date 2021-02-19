@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { HTMLProps } from 'react';
 import cx from 'clsx';
 
-export default () => {
+export default (styled) => {
+  
   const SidebarContent = ({
     className,
     ...props

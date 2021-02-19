@@ -30,8 +30,13 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const ChatBar = ({ concise }) => {
+const ChatBar = ({ concise,onClick }) => {
   const styles = useStyles();
+  const  [message, setMessage] = useState();
+  const sendMessage = () => {
+    onClick(message);
+    setMessage('');
+  }
   return (
     <>
       {!concise && (
@@ -39,20 +44,24 @@ const ChatBar = ({ concise }) => {
 
         </>
       )}
-      <InputBase
+           <InputBase
         className={styles.input}
         placeholder={'Type a message...'}
-        endAdornment={
-          <InputAdornment position={'end'}>
-            <Gif className={styles.icon} />
-            <Note className={styles.icon} />
-            <Image className={styles.icon} />
-            <AddCircle className={styles.icon} />
-            <TagFaces className={styles.icon} />
-          </InputAdornment>
-        }
+        onChange={e => {
+          setMessage(e.target.value);
+        }}
+        value = {message}
+        // endAdornment={
+        //   <InputAdornment position={'end'}>
+        //     <Gif className={styles.icon} />
+        //     <Note className={styles.icon} />
+        //     <Image className={styles.icon} />
+        //     <AddCircle className={styles.icon} />
+        //     <TagFaces className={styles.icon} />
+        //   </InputAdornment>
+        // }
       />
-      <SendIcon className={styles.icon} />
+      <SendIcon className={styles.icon} onClick={()=>sendMessage()}/>
     </>
   );
 };

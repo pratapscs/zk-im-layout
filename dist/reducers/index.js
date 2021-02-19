@@ -5,15 +5,14 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 
-var _react = require("react");
+var _redux = require("redux");
 
-var _context = _interopRequireDefault(require("../context"));
+var _IMReducer = _interopRequireDefault(require("./IMReducer"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-// eslint-disable-next-line
-var _default = function _default() {
-  return (0, _react.useContext)(_context["default"]);
-};
+var _default = (0, _redux.combineReducers)({
+  im: _IMReducer["default"]
+});
 
 exports["default"] = _default;

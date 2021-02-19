@@ -25,8 +25,6 @@ var _styles = require("@material-ui/core/styles");
 
 var _layout = _interopRequireWildcard(require("@mui-treasury/layout"));
 
-var _Avatar = _interopRequireDefault(require("@material-ui/core/Avatar"));
-
 var _MessengerSearch = _interopRequireDefault(require("./MessengerSearch"));
 
 var _ChatList = _interopRequireDefault(require("./ChatList"));
@@ -36,6 +34,8 @@ var _ConversationHead = _interopRequireDefault(require("./ConversationHead"));
 var _ChatBar = _interopRequireDefault(require("./ChatBar"));
 
 var _ChatDialog = _interopRequireDefault(require("./ChatDialog"));
+
+var _Avatar = _interopRequireDefault(require("@material-ui/core/Avatar"));
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
@@ -157,12 +157,10 @@ var IMMessages = function IMMessages() {
     }, sidebar.primarySidebar.collapsed ? /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement(_Box["default"], {
       display: "flex",
       p: 1
-    }, /*#__PURE__*/_react["default"].createElement(_Box["default"], {
-      p: 1
-    }, /*#__PURE__*/_react["default"].createElement(_Avatar["default"], {
+    }, /*#__PURE__*/_react["default"].createElement(_Box["default"], null, /*#__PURE__*/_react["default"].createElement(_IconButton["default"], null, /*#__PURE__*/_react["default"].createElement(_Avatar["default"], {
       src: 'https://i.pravatar.cc/300?img=13'
-    })), /*#__PURE__*/_react["default"].createElement(_Box["default"], {
-      p: 1,
+    }))), /*#__PURE__*/_react["default"].createElement(_Box["default"], {
+      p: 2,
       flexGrow: 1,
       className: styles.messageHeader
     }, "Messages"), /*#__PURE__*/_react["default"].createElement(_Box["default"], {

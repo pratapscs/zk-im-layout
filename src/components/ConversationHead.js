@@ -9,6 +9,8 @@ import IconButton from '@material-ui/core/IconButton';
 import PhoneInTalkIcon from '@material-ui/icons/PhoneInTalk';
 import Videocam from '@material-ui/icons/Videocam';
 import GroupAddIcon from '@material-ui/icons/GroupAdd';
+import ChatModal from './ChatModal';
+import MessengerSearch from './MessengerSearch';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -29,15 +31,45 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   HeaderIcon: {
-   
     [theme.breakpoints.down('sm')]: {
       display: 'none',
     }
   }
 }));
 
-const ConversationHead = () => {
+const useMessageSearchStyles = makeStyles(() => ({
+  root: {
+    backgroundColor: 'rgba(0, 0, 0, .04)',
+    borderRadius: 40,
+    width: '100%'
+  },
+  input: {
+    boxSizing: 'border-box',
+    minHeight: 36
+  },
+  icon: {
+    color: 'rgb(0, 153, 255)',
+    width: 35,
+    height: 35,
+  },
+}));
+
+const ConversationHead = ({
+  avatar,
+  primary,
+  secondary
+}) => {
   const styles = useStyles();
+  const [isOpen, setIsOpen] = React.useState(false);
+  const handleDialogOpen = () => {
+    setIsOpen(true);
+  };
+  const handleDialogClose = () => {
+    setIsOpen(false);
+  };
+
+  const messageStyle = useMessageSearchStyles();
+
   return (
     <ListItem
       ContainerComponent={'div'}
@@ -45,11 +77,11 @@ const ConversationHead = () => {
       className={styles.root}
     >
       <ListItemAvatar>
-        <Avatar src={'https://i.pravatar.cc/300?img=13'} />
+        <Avatar src={avatar} />
       </ListItemAvatar>
       <ListItemText
-        primary={'Imaad Casey'}
-        secondary={'active 17m ago'}
+         primary={primary}
+         secondary={secondary}
         classes={{ primary: styles.primary, secondary: styles.secondary }}
       />
       <ListItemSecondaryAction className={styles.HeaderIcon}>
@@ -59,9 +91,17 @@ const ConversationHead = () => {
         <IconButton className={styles.iconBtn}>
           <Videocam />
         </IconButton>
-        <IconButton className={styles.iconBtn}>
+        <IconButton className={styles.iconBtn} onClick={handleDialogOpen}>
           <GroupAddIcon />
         </IconButton>
+        <ChatModal
+          id="addMember"
+          dialogTitle="Add Members"
+          isOpen={isOpen}
+          handleClose={handleDialogClose}
+        >
+          <MessengerSearch useState={messageStyle} />
+        </ChatModal>
       </ListItemSecondaryAction>
     </ListItem>
   );

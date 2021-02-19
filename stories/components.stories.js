@@ -24,10 +24,15 @@ import IMMessages from 'components/IMMessages';
 import MessengerSearch from 'components/MessengerSearch';
 import RoundedIconSideBar from 'components/RoundedIconSideBar';
 import SideBarContent from 'components/SideBarContent';
-//import SideBarTrigger from 'components/SideBarTrigger';
 import TextLogo from 'components/TextLogo';
 import WhiteIconItem from 'components/WhiteIconItem';
-
+import ChatDropdownMenu from 'components/ChatDropdownMenu';
+import ChatModal from 'components/ChatModal';
+import StartMeeting from 'components/StartMeeting';
+import ReplyTextField from 'components/ReplyTextField';
+import Profile from 'components/Profile';
+import MeetingLogin from 'components/MeetingLogin';
+import Messages from 'components/Messages';
 
 // MOCK
 import NavContentEx from './mock/NavContentEx';
@@ -48,12 +53,20 @@ storiesOf('Components', module)
     <ChatDialog></ChatDialog>
   ))
 
+  .add('ChatDropdownMenu', () => (
+    <ChatDropdownMenu></ChatDropdownMenu>
+  ))
+
   .add('ChatList', () => (
     <ChatList></ChatList>
   ))
 
   .add('ChatListItem', () => (
     <ChatListItem></ChatListItem>
+  ))
+
+  .add('ChatModal', () => (
+    <ChatModal></ChatModal>
   ))
 
   .add('ChatMsg', () => (
@@ -128,8 +141,16 @@ storiesOf('Components', module)
     <IMMessages></IMMessages>
   ))
 
+  .add('MeetingLogin', () => (
+    <MeetingLogin></MeetingLogin>
+  ))
+
   .add('MessengerSearch', () => (
     <MessengerSearch></MessengerSearch>
+  ))
+
+  .add('Messages', () => (
+    <Messages></Messages>
   ))
 
   .add('Nav', () => (
@@ -160,6 +181,14 @@ storiesOf('Components', module)
       </Nav>
     </Root>
   ))
+  
+  .add('Profile', () => (
+    <Profile></Profile>
+  ))
+
+  .add('ReplyTextField', () => (
+    <ReplyTextField></ReplyTextField>
+  ))
 
   .add('Root', () => (
     <Root>
@@ -176,9 +205,9 @@ storiesOf('Components', module)
     <SideBarContent></SideBarContent>
   ))
  
-  // .add('SideBarTrigger', () => (
-  //   <SideBarTrigger></SideBarTrigger>
-  // ))
+  .add('StartMeeting', () => (
+    <StartMeeting></StartMeeting>
+ ))
 
   .add('TextLogo', () => (
     <TextLogo></TextLogo>

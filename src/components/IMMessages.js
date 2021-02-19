@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import styled from 'styled-components';
 import Box from '@material-ui/core/Box';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -7,12 +7,13 @@ import IconButton from '@material-ui/core/IconButton';
 import AddOutlinedIcon from '@material-ui/icons/AddOutlined';
 import { makeStyles, createMuiTheme, responsiveFontSizes } from '@material-ui/core/styles';
 import Layout, { Root, getHeader, getContent, getFullscreen, getDrawerSidebar, getInsetFooter } from '@mui-treasury/layout';
-import Avatar from '@material-ui/core/Avatar';
 import MessengerSearch from './MessengerSearch';
 import ChatList from './ChatList';
 import ConversationHead from './ConversationHead';
 import ChatBar from './ChatBar';
 import ChatDialog from './ChatDialog';
+import Avatar from '@material-ui/core/Avatar';
+
 
 const Header = getHeader(styled);
 const Content = getContent(styled);
@@ -22,10 +23,10 @@ const InsetFooter = getInsetFooter(styled);
 
 const useStyles = makeStyles((theme) => ({
   fullscreen: {
- marginLeft: '110px',
- [theme.breakpoints.down('sm')]: {
-  marginLeft: '0px',
-}
+    marginLeft: '110px',
+    [theme.breakpoints.down('sm')]: {
+      marginLeft: '0px',
+    }
   },
   header: {
     boxShadow: '0 1px 2px 0 rgba(0, 0, 0, .10)',
@@ -53,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: '84px',
     [theme.breakpoints.down('sm')]: {
       marginLeft: '0px',
-      zIndex:'0'
+      zIndex: '0'
     }
   }
 }));
@@ -115,6 +116,8 @@ const IMMessages = () => {
         width: '33%',
       });
   });
+
+
   return (
     <Fullscreen className={styles.fullscreen}>
       <Root theme={theme} scheme={scheme}>
@@ -132,10 +135,12 @@ const IMMessages = () => {
               {sidebar.primarySidebar.collapsed ? (
                 <>
                   <Box display="flex" p={1}>
-                    <Box p={1}>
-                      <Avatar src={'https://i.pravatar.cc/300?img=13'} />
+                    <Box>
+                      <IconButton>
+                        <Avatar src={'https://i.pravatar.cc/300?img=13'} />
+                      </IconButton>
                     </Box>
-                    <Box p={1} flexGrow={1} className={styles.messageHeader}>
+                    <Box p={2} flexGrow={1} className={styles.messageHeader}>
                       Messages
                     </Box>
                     <Box p={1}>
@@ -149,14 +154,14 @@ const IMMessages = () => {
                   </Box>
                 </>
               ) : (
-                 
-                    <Box display='flex' p={1}>
-                      <MessengerSearch />
-                      <IconButton className={styles.edit}>
-                        <AddOutlinedIcon />
-                      </IconButton>
-                    </Box>
-            
+
+                  <Box display='flex' p={1}>
+                    <MessengerSearch />
+                    <IconButton className={styles.edit}>
+                      <AddOutlinedIcon />
+                    </IconButton>
+                  </Box>
+
                 )}
               <ChatList concise={sidebar.primarySidebar.collapsed} />
             </DrawerSidebar>
@@ -173,6 +178,8 @@ const IMMessages = () => {
           </>
         )}
       </Root>
+
+
     </Fullscreen>
   );
 };

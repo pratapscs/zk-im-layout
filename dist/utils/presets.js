@@ -117,7 +117,8 @@ var createMuiTreasuryLayout = function createMuiTreasuryLayout(config) {
     clipped: true,
     collapsible: false
   }, config);
-};
+}; // eslint-disable-next-line
+
 
 exports.createMuiTreasuryLayout = createMuiTreasuryLayout;
 var _default = {

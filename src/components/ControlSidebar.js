@@ -1,11 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { makeStyles } from '@material-ui/core/styles';
-import Layout, {
-  Root,
-  getDrawerSidebar,
-  getSidebarContent
-} from '@mui-treasury/layout';
+import Layout, {Root, getDrawerSidebar, getSidebarContent} from '@mui-treasury/layout';
 import RoundIconSidebar from './RoundedIconSideBar';
 
 const DrawerSidebar = getDrawerSidebar(styled);

@@ -21,6 +21,8 @@ var _DateRange = _interopRequireDefault(require("@material-ui/icons/DateRange"))
 
 var _ScreenShare = _interopRequireDefault(require("@material-ui/icons/ScreenShare"));
 
+var _reactRouterDom = require("react-router-dom");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
@@ -57,21 +59,41 @@ var ConferenceHead = function ConferenceHead() {
     showLabels: true,
     className: styles.root
   }, /*#__PURE__*/_react["default"].createElement(_BottomNavigationAction["default"], {
-    label: "New Meeting",
+    component: _reactRouterDom.Link,
+    to: {
+      pathname: '/meetingpage',
+      meeting: {
+        meetingId: '2329451172',
+        password: '164494',
+        email: 'pratap@zkteco.in',
+        role: 1
+      }
+    },
+    value: "start",
+    label: "NewMeeting",
     icon: /*#__PURE__*/_react["default"].createElement(_Videocam["default"], {
       fontSize: "large"
     })
   }), /*#__PURE__*/_react["default"].createElement(_BottomNavigationAction["default"], {
+    component: _reactRouterDom.Link,
+    to: "/join",
+    value: "join",
     label: "Join",
     icon: /*#__PURE__*/_react["default"].createElement(_AddCircleOutline["default"], {
       fontSize: "large"
     })
   }), /*#__PURE__*/_react["default"].createElement(_BottomNavigationAction["default"], {
+    component: _reactRouterDom.Link,
+    to: "/schedule",
+    value: "schedule",
     label: "Schedule",
     icon: /*#__PURE__*/_react["default"].createElement(_DateRange["default"], {
       fontSize: "large"
     })
   }), /*#__PURE__*/_react["default"].createElement(_BottomNavigationAction["default"], {
+    component: _reactRouterDom.Link,
+    to: "/share",
+    value: "share",
     label: " Share Screen",
     icon: /*#__PURE__*/_react["default"].createElement(_ScreenShare["default"], {
       fontSize: "large"

@@ -63,12 +63,11 @@ const RoundIconSidebar = ({ onClickItem }) => {
       IMS
     </TextLogo>
     {list.map(item => (
-         <Link to={item.path} key={item.path}>
-            <WhiteIconItem onClick={onClickItem}  {...item} />
-        </Link>
+       <Link to={item.path} key={item.path}>
+          <WhiteIconItem onClick={onClickItem}  {...item} />
+       </Link>
     ))}
   </List>
-
   )
 };
 

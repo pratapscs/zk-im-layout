@@ -91,6 +91,7 @@ export const createMuiTreasuryLayout = config => ({
   ...config,
 });
 
+// eslint-disable-next-line
 export default {
   createDefaultLayout,
   createStandardLayout,
