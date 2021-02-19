@@ -10,7 +10,7 @@ import PhoneInTalkIcon from '@material-ui/icons/PhoneInTalk';
 import Videocam from '@material-ui/icons/Videocam';
 import GroupAddIcon from '@material-ui/icons/GroupAdd';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   container: {
     width: '100%',
   },
@@ -28,6 +28,12 @@ const useStyles = makeStyles(() => ({
       color: 'rgb(0, 153, 255)',
     },
   },
+  HeaderIcon: {
+   
+    [theme.breakpoints.down('sm')]: {
+      display: 'none',
+    }
+  }
 }));
 
 const ConversationHead = () => {
@@ -46,7 +52,7 @@ const ConversationHead = () => {
         secondary={'active 17m ago'}
         classes={{ primary: styles.primary, secondary: styles.secondary }}
       />
-      <ListItemSecondaryAction>
+      <ListItemSecondaryAction className={styles.HeaderIcon}>
         <IconButton className={styles.iconBtn}>
           <PhoneInTalkIcon />
         </IconButton>

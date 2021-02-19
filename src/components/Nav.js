@@ -134,6 +134,7 @@ Nav.propTypes = {
   renderIcon: PropTypes.func,
   toggleProps: PropTypes.shape({}),
 };
+
 Nav.defaultProps = {
   className: '',
   header: null,

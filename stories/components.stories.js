@@ -7,6 +7,7 @@ import Root from 'components/Root';
 import Header from 'components/Header';
 import Nav from 'components/Nav';
 import Content from 'components/Content';
+import ControlSidebar from 'components/ControlSidebar';
 import Footer from 'components/Footer';
 import ChatBar from 'components/ChatBar';
 import ChatDialog from 'components/ChatDialog';
@@ -14,9 +15,19 @@ import ChatList from 'components/ChatList';
 import ChatListItem from 'components/ChatListItem';
 import ChatMsg from 'components/ChatMsg';
 import ChatSettings from 'components/ChatSettings';
+import Conference from 'components/Conference';
+import ConferenceHead from 'components/ConferenceHead';
+import ConferenceLists from 'components/ConferenceLists';
+import ConferenceTabs from 'components/ConferenceTabs';
 import ConversationHead from 'components/ConversationHead';
 import IMMessages from 'components/IMMessages';
 import MessengerSearch from 'components/MessengerSearch';
+import RoundedIconSideBar from 'components/RoundedIconSideBar';
+import SideBarContent from 'components/SideBarContent';
+//import SideBarTrigger from 'components/SideBarTrigger';
+import TextLogo from 'components/TextLogo';
+import WhiteIconItem from 'components/WhiteIconItem';
+
 
 // MOCK
 import NavContentEx from './mock/NavContentEx';
@@ -53,22 +64,43 @@ storiesOf('Components', module)
     <ChatSettings></ChatSettings>
   ))
 
+  .add('Conference', () => (
+    <Conference></Conference>
+  ))
+
+  .add('ConferenceHead', () => (
+    <ConferenceHead></ConferenceHead>
+  ))
+
+  .add('ConferenceLists', () => (
+    <ConferenceLists></ConferenceLists>
+  ))
+
+  .add('ConferenceTabs', () => (
+    <ConferenceTabs></ConferenceTabs>
+  ))
+
+  .add('Content', () => (
+    <Root>
+      <Content>
+        <ContentEx />
+      </Content>
+    </Root>
+  ))
+
+  .add('ControlSidebar', () => (
+    <ControlSidebar></ControlSidebar>
+  ))
+
   .add('ConversationHead', () => (
     <ConversationHead></ConversationHead>
   ))
 
-  .add('IMMessages', () => (
-    <IMMessages></IMMessages>
-  ))
-
-  .add('MessengerSearch', () => (
-    <MessengerSearch></MessengerSearch>
-  ))
-
-  .add('Root', () => (
+  .add('Footer', () => (
     <Root>
-      <code>Root</code> is just a Provider, it does not return any DOM on the
-      screen.
+      <Footer>
+        <FooterEx />
+      </Footer>
     </Root>
   ))
 
@@ -90,6 +122,14 @@ storiesOf('Components', module)
         )}
       </Header>
     </Root>
+  ))
+
+  .add('IMMessages', () => (
+    <IMMessages></IMMessages>
+  ))
+
+  .add('MessengerSearch', () => (
+    <MessengerSearch></MessengerSearch>
   ))
 
   .add('Nav', () => (
@@ -120,19 +160,30 @@ storiesOf('Components', module)
       </Nav>
     </Root>
   ))
-  
-  .add('Content', () => (
+
+  .add('Root', () => (
     <Root>
-      <Content>
-        <ContentEx />
-      </Content>
+      <code>Root</code> is just a Provider, it does not return any DOM on the
+      screen.
     </Root>
   ))
 
-  .add('Footer', () => (
-    <Root>
-      <Footer>
-        <FooterEx />
-      </Footer>
-    </Root>
+  .add('RoundedIconSideBar', () => (
+    <RoundedIconSideBar></RoundedIconSideBar>
+  ))
+
+  .add('SideBarContent', () => (
+    <SideBarContent></SideBarContent>
+  ))
+ 
+  // .add('SideBarTrigger', () => (
+  //   <SideBarTrigger></SideBarTrigger>
+  // ))
+
+  .add('TextLogo', () => (
+    <TextLogo></TextLogo>
+  ))
+
+  .add('WhiteIconItem', () => (
+    <WhiteIconItem></WhiteIconItem>
   ));

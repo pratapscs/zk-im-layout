@@ -24,6 +24,7 @@ const list = [
     to: "/starred"
   },
 ];
+
 const RouterNavEx = ({ setOpened }) => (
   <List>
     {list.map(({ primaryText, icon, to }, i) => (

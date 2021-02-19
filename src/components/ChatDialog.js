@@ -20,6 +20,7 @@ const ChatDialog = () => {
   const styles = useStyles();
   return (
     <Box p={'16px 30px 12px 10px'}>
+      
       <ChatMsg
         avatar={AVATAR}
         messages={[
@@ -29,6 +30,7 @@ const ChatDialog = () => {
         ]}
       />
       <Typography className={styles.date}>FRI 1:46 PM</Typography>
+      
       <ChatMsg
         side={'right'}
         messages={[
@@ -44,6 +46,7 @@ const ChatDialog = () => {
         ]}
       />
       <Typography className={styles.date}>FRI 4:18 PM</Typography>
+      
       <ChatMsg
         avatar={AVATAR}
         messages={[

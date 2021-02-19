@@ -6,7 +6,8 @@ import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import AddOutlinedIcon from '@material-ui/icons/AddOutlined';
 import { makeStyles, createMuiTheme, responsiveFontSizes } from '@material-ui/core/styles';
-import Layout, { Root, getHeader, getContent, getFullscreen, getDrawerSidebar, getInsetContainer, getInsetFooter } from '@mui-treasury/layout';
+import Layout, { Root, getHeader, getContent, getFullscreen, getDrawerSidebar, getInsetFooter } from '@mui-treasury/layout';
+import Avatar from '@material-ui/core/Avatar';
 import MessengerSearch from './MessengerSearch';
 import ChatList from './ChatList';
 import ConversationHead from './ConversationHead';
@@ -18,12 +19,23 @@ const Content = getContent(styled);
 const Fullscreen = getFullscreen(styled);
 const DrawerSidebar = getDrawerSidebar(styled);
 const InsetFooter = getInsetFooter(styled);
-const InsetContainer = getInsetContainer(styled);
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
+  fullscreen: {
+ marginLeft: '110px',
+ [theme.breakpoints.down('sm')]: {
+  marginLeft: '0px',
+}
+  },
   header: {
     boxShadow: '0 1px 2px 0 rgba(0, 0, 0, .10)',
     backgroundColor: '#fff',
+  },
+  messageHeader: {
+    fontSize: '18px',
+    fontWeight: '700',
+    fontFamily:
+      '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"',
   },
   insetBody: {
     borderLeft: '1px solid rgba(0, 0, 0, 0.08)',
@@ -36,6 +48,13 @@ const useStyles = makeStyles(() => ({
     // width: '2em',
     // height: '2em',
     // fontSize: '5em',
+  },
+  sidebar: {
+    marginLeft: '84px',
+    [theme.breakpoints.down('sm')]: {
+      marginLeft: '0px',
+      zIndex:'0'
+    }
   }
 }));
 
@@ -71,12 +90,14 @@ const theme = responsiveFontSizes(
 const IMMessages = () => {
   const styles = useStyles();
   const scheme = Layout();
+
   scheme.configureHeader(builder => {
     builder.create('appHeader').registerConfig('xs', {
       position: 'relative',
       initialHeight: 60,
     });
   });
+
   scheme.configureEdgeSidebar(builder => {
     builder
       .create('primarySidebar', { anchor: 'left' })
@@ -95,45 +116,55 @@ const IMMessages = () => {
       });
   });
   return (
-    <Fullscreen>
+    <Fullscreen className={styles.fullscreen}>
       <Root theme={theme} scheme={scheme}>
         {({ state: { sidebar } }) => (
           <>
             <CssBaseline />
+
             <Header className={styles.header}>
               <Toolbar disableGutters>
                 <ConversationHead />
               </Toolbar>
             </Header>
-            <DrawerSidebar sidebarId={'primarySidebar'}>
+
+            <DrawerSidebar sidebarId={'primarySidebar'} PaperProps={{ className: styles.sidebar }}>
               {sidebar.primarySidebar.collapsed ? (
-                <Box textAlign={'center'} my={1} display='flex' p={1} >
-                   <MessengerSearch />
-                  <IconButton className={styles.edit}>
-                    <AddOutlinedIcon />
-                  </IconButton>
-                </Box>
-              ) : (
-                  <>
-                    <br />
-                    <Box  display='flex' p={1}>
-                    <MessengerSearch />
-                  <IconButton className={styles.edit}>
-                     
-                    <AddOutlinedIcon />
-                  </IconButton>
+                <>
+                  <Box display="flex" p={1}>
+                    <Box p={1}>
+                      <Avatar src={'https://i.pravatar.cc/300?img=13'} />
                     </Box>
-                  </>
+                    <Box p={1} flexGrow={1} className={styles.messageHeader}>
+                      Messages
+                    </Box>
+                    <Box p={1}>
+                      <IconButton className={styles.edit}>
+                        <AddOutlinedIcon />
+                      </IconButton>
+                    </Box>
+                  </Box>
+                  <Box textAlign={'center'} my={1} display='flex' p={1} >
+                    <MessengerSearch />
+                  </Box>
+                </>
+              ) : (
+                 
+                    <Box display='flex' p={1}>
+                      <MessengerSearch />
+                      <IconButton className={styles.edit}>
+                        <AddOutlinedIcon />
+                      </IconButton>
+                    </Box>
+            
                 )}
               <ChatList concise={sidebar.primarySidebar.collapsed} />
             </DrawerSidebar>
+
             <Content>
-              <InsetContainer
-                disableGutters
-              >
-                <ChatDialog />
-              </InsetContainer>
+              <ChatDialog />
             </Content>
+
             <InsetFooter ContainerProps={{ disableGutters: true }}>
               <Box display={'flex'} alignItems={'center'} p={1}>
                 <ChatBar concise={sidebar.primarySidebar.collapsed} />
