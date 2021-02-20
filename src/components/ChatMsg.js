@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
@@ -6,11 +6,9 @@ import Grid from '@material-ui/core/Grid';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
-import Button from '@material-ui/core/Button';
 import TagFaces from '@material-ui/icons/TagFaces';
 import Reply from '@material-ui/icons/Reply';
-import ChatDropdownMenu from './ChatDropdownMenu';
-import ReplyTextField from './ReplyTextField';
+import MoreHoriz from '@material-ui/icons/MoreHoriz';
 
 const useStyles = makeStyles(({ palette, spacing }) => {
   const radius = spacing(2.5);
@@ -32,9 +30,6 @@ const useStyles = makeStyles(({ palette, spacing }) => {
       '&:hover $iconBtn': {
         opacity: 1,
       },
-      '&:hover $menuList': {
-        opacity: 1,
-      },
     },
     leftMsgBox: {
       textAlign: 'left',
@@ -53,23 +48,6 @@ const useStyles = makeStyles(({ palette, spacing }) => {
         // eslint-disable-next-line max-len
         '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"',
       fontSize: '14px',
-    },
-    menuList: {
-      opacity: 0,
-      '& button': {
-
-        padding: 6,
-        color: 'rgba(0,0,0,0.34)',
-        margin: '0 4px',
-      },
-      '& button:hover': {
-        color: 'rgba(0,0,0,0.87)',
-        opacity: 1,
-      },
-      '& svg': {
-        fontSize: 20,
-      },
-
     },
     left: {
       borderTopRightRadius: radius,
@@ -113,19 +91,8 @@ const useStyles = makeStyles(({ palette, spacing }) => {
   };
 });
 
-const data = [
-  { label: "Unfollow Message", value: "0" },
-  { label: "Star", value: "1" },
-  { label: "Share Message", value: "2" },
-  { label: "Mark as Unread", value: "3" },
-  { label: "Edit", value: "4" },
-  { label: "Delete", value: "5" },
-  { label: "Copy", value: "6" },
-];
-
 const ChatMsg = ({ avatar, messages, side }) => {
   const styles = useStyles();
-  const [replyOpen, setReplyOpen] = useState(false);
   const attachClass = index => {
     if (index === 0) {
       return styles[`${side}First`];
@@ -135,11 +102,6 @@ const ChatMsg = ({ avatar, messages, side }) => {
     }
     return '';
   };
-
-  const handleReplyClicked = (i) => {
-    setReplyOpen(!replyOpen);
-  }
-
   return (
     <Grid
       container
@@ -175,39 +137,15 @@ const ChatMsg = ({ avatar, messages, side }) => {
                   <TagFaces />
                 </IconButton>
                 <IconButton className={styles.iconBtn}>
-                  <Reply onClick={() => handleReplyClicked(i)} />
+                  <Reply />
                 </IconButton>
-                <span className={styles.menuList}>
-                  <ChatDropdownMenu
-                    id="menuId"
-                    options={data}
-                    actionBtnIcon="MoreHoriz"
-                    onClick={() => alert(true)}
-                  />
-                </span>
+                <IconButton className={styles.iconBtn}>
+                  <MoreHoriz />
+                </IconButton>
               </div>
             </div>
           );
         })}
-      </Grid>
-      <Grid
-        container
-        spacing={2}
-        justify={side === 'right' ? 'flex-end' : 'flex-start'}
-      >
-        <Grid item xs>
-          {replyOpen ? (
-            <>
-              <ReplyTextField />
-              <Button variant="contained" color="primary" className={styles.actionButton} >
-                Save
-          </Button>
-              <Button  variant="contained" color="secondary" className={styles.actionButton}  onClick={() => setReplyOpen(false)}>
-                cancel
-          </Button>
-            </>
-          ) : null}
-        </Grid>
       </Grid>
     </Grid>
   );

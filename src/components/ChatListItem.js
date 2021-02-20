@@ -6,6 +6,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Avatar from '@material-ui/core/Avatar';
 import MoreHoriz from '@material-ui/icons/MoreHoriz';
+import PropTypes from "prop-types";
 
 const useStyles = makeStyles(({ palette }) => ({
   root: ({ active }) => ({
@@ -88,7 +89,7 @@ const ChatListItem = ({
         <Avatar src={avatar} className={styles.avatar} />
         {/* {!concise && ( */}
           <>
-          <ListItemText
+            <ListItemText
               primary={firstName+" "+lastName}
               secondary={message+" • "+sentTime}
               primaryTypographyProps={{ noWrap: true }}
@@ -110,6 +111,26 @@ const ChatListItem = ({
       </ListItem>
     </Box>
   );
+};
+
+ChatListItem.defaultProps = {
+  message: '',
+  sentTime: '',
+  firstName: '',
+  lastName: '',
+  email: '',
+  contact: {},
+  onClick: () => console.log("ChatList")
+}
+
+ChatListItem.propTypes = {
+  message: PropTypes.string,
+  sentTime: PropTypes.string,
+  firstName: PropTypes.string,
+  lastName: PropTypes.string,
+  email: PropTypes.string,
+  contact: PropTypes.object,
+  onClick: PropTypes.func
 };
 
 export default ChatListItem;

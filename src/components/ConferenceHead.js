@@ -1,41 +1,79 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import BottomNavigation from '@material-ui/core/BottomNavigation';
-import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
-import VideocamIcon from '@material-ui/icons/Videocam';
-import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
-import DateRangeIcon from '@material-ui/icons/DateRange';
-import ScreenShareIcon from '@material-ui/icons/ScreenShare';
-import { Link } from "react-router-dom";
+import ListItem from '@material-ui/core/ListItem';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import Avatar from '@material-ui/core/Avatar';
+import IconButton from '@material-ui/core/IconButton';
+import PhoneInTalkIcon from '@material-ui/icons/PhoneInTalk';
+import Videocam from '@material-ui/icons/Videocam';
+import GroupAddIcon from '@material-ui/icons/GroupAdd';
+import PropTypes from "prop-types";
 
-const useStyles = makeStyles({
-  root: {
+const useStyles = makeStyles(() => ({
+  container: {
     width: '100%',
   },
-});
+  root: {
+    padding: '8px 8px 8px 16px',
+  },
+  primary: {
+    fontWeight: 'bold',
+  },
+  secondary: {
+    fontSize: 12,
+  },
+  iconBtn: {
+    '& svg': {
+      color: 'rgb(0, 153, 255)',
+    },
+  },
+}));
 
-
-const ConferenceHead = () => {
+const ConversationHead = ({
+  avatar,
+  primary,
+  secondary
+}) => {
   const styles = useStyles();
-  const [value, setValue] = React.useState(0);
-
   return (
-    <BottomNavigation
-    value={value}
-    onChange={(event, newValue) => {
-      setValue(newValue);
-    }}
-    showLabels
-    className={styles.root}
-  >
-    <BottomNavigationAction component={Link} to={{ pathname: '/meetingpage', meeting: { meetingId: '2329451172', password: '164494', email: 'pratap@zkteco.in', role: 1 } }} 
-        value="start" label="NewMeeting" icon={<VideocamIcon fontSize="large" />} />
-    <BottomNavigationAction component={Link} to="/join" value="join" label="Join" icon={<AddCircleOutlineIcon fontSize="large" />}  />
-    <BottomNavigationAction component={Link} to="/schedule" value="schedule" label="Schedule" icon={<DateRangeIcon fontSize="large" />}  />
-    <BottomNavigationAction component={Link} to="/share" value="share" label=" Share Screen" icon={<ScreenShareIcon fontSize="large" />} />
-
-  </BottomNavigation>
+    <ListItem
+      ContainerComponent={'div'}
+      ContainerProps={{ className: styles.container }}
+      className={styles.root}
+    >
+      <ListItemAvatar>
+        <Avatar src={avatar} />
+      </ListItemAvatar>
+      <ListItemText
+        primary={primary}
+        secondary={secondary}
+        classes={{ primary: styles.primary, secondary: styles.secondary }}
+      />
+      <ListItemSecondaryAction>
+        <IconButton className={styles.iconBtn}>
+          <PhoneInTalkIcon />
+        </IconButton>
+        <IconButton className={styles.iconBtn}>
+          <Videocam />
+        </IconButton>
+        <IconButton className={styles.iconBtn}>
+          <GroupAddIcon />
+        </IconButton>
+      </ListItemSecondaryAction>
+    </ListItem>
   );
 };
 
-export default ConferenceHead;
+ConversationHead.defaultProps = {
+  primary: '',
+  secondary: ''
+}
+
+ConversationHead.propTypes = {
+  primary: PropTypes.string,
+  secondary: PropTypes.string
+};
+
+export default ConversationHead;

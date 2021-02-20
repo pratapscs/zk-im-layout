@@ -9,6 +9,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import InputBase from '@material-ui/core/InputBase';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Search from '@material-ui/icons/Search';
+import PropTypes from "prop-types";
 //import AddBoxOutlinedIcon from '@material-ui/icons/AddBoxOutlined';
 
 const useStyles = makeStyles(() => ({
@@ -81,7 +82,6 @@ const MessengerSearch = ({getContactSuggestions,queryAction}) => {
     <MenuItem onClick={(event) => handleClose(event,item)}>{item ? item.title : ''}</MenuItem>
   ));
 
-
   return (
     <>
     <InputBase
@@ -98,7 +98,7 @@ const MessengerSearch = ({getContactSuggestions,queryAction}) => {
       }}
       ref={anchorRef}
     />
-     <Popper open={open} anchorEl={anchorRef.current} role={undefined} transition disablePortal style={{zIndex:'999',width:"80%",margin:"10px"}}>
+    <Popper open={open} anchorEl={anchorRef.current} role={undefined} transition disablePortal style={{zIndex:'999',width:"80%",margin:"10px"}}>
       {({ TransitionProps, placement }) => (
         <Grow
           {...TransitionProps}
@@ -117,6 +117,16 @@ const MessengerSearch = ({getContactSuggestions,queryAction}) => {
     {/* <AddBoxOutlinedIcon className={styles.icon} /> */}
     </>
   );
+};
+
+MessengerSearch.defaultProps = {
+  getContactSuggestions: () => console.log(""),
+  queryAction: () => console.log("")
+}
+
+MessengerSearch.propTypes = {
+  getContactSuggestions: PropTypes.func,
+  queryAction: PropTypes.func
 };
 
 export default MessengerSearch;

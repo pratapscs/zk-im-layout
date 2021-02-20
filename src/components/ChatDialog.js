@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import ChatMsg from './ChatMsg';
+import PropTypes from "prop-types";
 
 const AVATAR = 'https://i.pravatar.cc/300?img=13';
 
@@ -30,5 +31,14 @@ const ChatDialog = ({messageList, to}) => {
   );
 };
 
-export default ChatDialog;
+ChatDialog.defaultProps = {
+  messageList: [],
+  to: {}
+}
 
+ChatDialog.propTypes = {
+  messageList: PropTypes.array,
+  to: PropTypes.object
+};
+
+export default ChatDialog;
