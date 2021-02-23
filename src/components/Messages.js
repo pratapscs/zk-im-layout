@@ -290,7 +290,7 @@ return (
               <>
                 <Box display="flex" p={1}>
                   <Box p={1}>
-                    <Avatar src={'https://i.pravatar.cc/300?img=13'} />
+                    <Avatar src={'https://www.pexels.com/photo/6872454/'} />
                   </Box>
                   <Box p={1} flexGrow={1} className={styles.messageHeader}>
                     Messages

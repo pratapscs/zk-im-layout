@@ -33,6 +33,7 @@ import ReplyTextField from 'components/ReplyTextField';
 import Profile from 'components/Profile';
 import MeetingLogin from 'components/MeetingLogin';
 import Messages from 'components/Messages';
+import EditTextField from 'components/EditTextField';
 
 // MOCK
 import NavContentEx from './mock/NavContentEx';
@@ -108,6 +109,11 @@ storiesOf('Components', module)
   .add('ConversationHead', () => (
     <ConversationHead></ConversationHead>
   ))
+
+  .add('EditTextField', () => (
+    <EditTextField></EditTextField>
+  ))
+
 
   .add('Footer', () => (
     <Root>
