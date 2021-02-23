@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Box from '@material-ui/core/Box';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -8,34 +8,21 @@ import AddOutlinedIcon from '@material-ui/icons/AddOutlined';
 import { makeStyles, createMuiTheme, responsiveFontSizes } from '@material-ui/core/styles';
 import Layout, { Root, getHeader, getContent, getFullscreen, getDrawerSidebar, getInsetFooter } from '@mui-treasury/layout';
 import MessengerSearch from './MessengerSearch';
-import ChatList from './ChatList';
 import ConversationHead from './ConversationHead';
 import ChatBar from './ChatBar';
 import ChatDialog from './ChatDialog';
+import ChatListItem from './ChatListItem';
+import ChatList from './ChatList';
 import Avatar from '@material-ui/core/Avatar';
-import { compose } from 'redux';
-import { connect } from "react-redux";
-import { 
-  addContact, 
-  getAllRecentConversations, 
-  selectContact, 
-  clearDraftContact, 
-  getPrivateChatMessages, 
-  getChannelChatMessages,
-  clearChat,
-  setRecentContacts, 
-  setPrivateChatMessages,
-  addContactAndSendMessage,
-  sendChatMessages  
-} from "../Action/Action";
-import {useDispatch, useSelector} from "react-redux";
-
+import axios from 'axios';
+import PropTypes from "prop-types";
+ 
 const Header = getHeader(styled);
 const Content = getContent(styled);
 const Fullscreen = getFullscreen(styled);
 const DrawerSidebar = getDrawerSidebar(styled);
 const InsetFooter = getInsetFooter(styled);
-
+ 
 const useStyles = makeStyles((theme) => ({
   fullscreen: {
  marginLeft: '110px',
@@ -60,16 +47,17 @@ const useStyles = makeStyles((theme) => ({
   },
   edit: {
     backgroundColor: 'rgba(0,0,0,0.04)',
-    marginLeft: '10px',
-    // width: '2em',
-    // height: '2em',
-    // fontSize: '5em',
+    marginLeft: '10px'
   },
   sidebar: {
     marginLeft: '84px',
     [theme.breakpoints.down('sm')]: {
       marginLeft: '0px',
-      zIndex:'0'
+      zIndex:'0',
+      '&:hover': {
+        width: '80% !important',
+        zIndex:'999',
+      }
     }
   },
   footer: {
@@ -78,10 +66,10 @@ const useStyles = makeStyles((theme) => ({
     }
   }
 }));
-
+ 
 var isSSE = false;
 var conversationHandler = null;
-
+ 
 const theme = responsiveFontSizes(
   createMuiTheme({
     palette: {
@@ -110,133 +98,135 @@ const theme = responsiveFontSizes(
     },
   })
 );
-const contactHandler = new EventSource('http://192.168.20.30:9089/api/v1.0/recent-contacts/pratap@zkteco.in');
-  
-const Messages = () => {
+
+
+const Messages = ({contacts,user,config,getOrganizationContact}) => {
   const styles = useStyles();
   const scheme = Layout();
-  const dispatch = useDispatch();
-  const chatProps = useSelector(state => state.im);
   const [messageList,setMessageList] = useState([]);
   const [draftContact,setDraftContact] = useState({});
+  const [fromContact, setFromContact] = useState(user);
+  const [toContact, setToContact] = useState({});
+  const [contactList, setContactList] = useState(contacts);
+  const [recentContacts, setRecentContacts] = useState([]);
   const [displayContact, setDisplayContact] = React.useState('inline');
   const [displayChat, setDisplayChat] = React.useState('none');
-  contactHandler.onmessage = e => synchRecentContact(JSON.parse(e.data))
+  const imServiceUrl = config.imServiceUrl;
+  
+  var contactHandler;
+  
+  useEffect(() => {
+    contactHandler = new EventSource(imServiceUrl+'/api/v1.0/recent-contacts/pratap@zkteco.in');
+    contactHandler.onmessage = e => synchRecentContact(JSON.parse(e.data));
+  }, []);
   
   const searchContact = (query) => {
-    if (!query) return [];
-    const result = chatProps.contactList.map((data) => {
-        if (data.email.includes(query)) {
-            data.title = data.firstName+" "+data.lastName;
-            return data
-        }
-    });
-    return result;
+    return getOrganizationContact(query);
   }
-
+ 
   const handleContact = (contact) => {
     
       const contactInfoDTO = {
           user_id: contact.userId,
-          user_email_id: chatProps.fromContact.email,
+          user_email_id: fromContact.email,
           contact_email_id: contact.email,
           first_name: contact.firstName,
           last_name: contact.lastName,
           unread_message_count: null,
           updated_at: null
       }
-
-      if(!chatProps.recentContacts[chatProps.recentContacts.findIndex(x => x.email == contact.email)]){
+ 
+      if(!recentContacts[recentContacts.findIndex(x => x.email == contact.email)]){
           setDraftContact(contact)
-          dispatch(clearDraftContact(contact))
           setMessageList([])
           if(conversationHandler != null){
-          conversationHandler.close();
-        }
-          dispatch(selectContact(contact))
+            conversationHandler.close();
+          }
+          setToContact(contact)
       } else {
         setMessageList([])
         if(conversationHandler != null){
           conversationHandler.close();
         }
-        dispatch(selectContact({contact}))
+        setToContact(contact)
+        selectChatContact(contact)
       }
   }
  
   
   const synchRecentContact = (data) => {
-    dispatch(setRecentContacts(data ? data.data : []))
+    setRecentContacts(data ? data.data : [])
   }
-
+ 
   const synchRecentMessages = (messages) => {
     setMessageList(messages ? messages.data : [])
   }
-
+ 
   const selectChatContact = contact => {
-    dispatch(selectContact(contact))
-    dispatch(clearChat())
-
+    setToContact(contact)
+    setMessageList([])
+ 
     if(!contact.channelId){
       if(isSSE){
         conversationHandler.close();
         isSSE = false;
-        conversationHandler = new EventSource('http://192.168.20.30:9089/api/v1.0/chat/'+chatProps.fromContact.email+'/'+contact.email);
+        conversationHandler = new EventSource(imServiceUrl+'/api/v1.0/chat/'+fromContact.email+'/'+contact.email);
         conversationHandler.onmessage = e => synchRecentMessages(JSON.parse(e.data))
       } else {
         if(conversationHandler != null){
           conversationHandler.close();
         }
         isSSE = true;
-        conversationHandler = new EventSource('http://192.168.20.30:9089/api/v1.0/chat/'+chatProps.fromContact.email+'/'+contact.email);
+        conversationHandler = new EventSource(imServiceUrl+'/api/v1.0/chat/'+fromContact.email+'/'+contact.email);
         conversationHandler.onmessage = e => synchRecentMessages(JSON.parse(e.data))
       }
       
     }
-        //this.props.getPrivateChatMessages(contact.email, 10, '2020-12-19', this.props.fromContact.email);
-    else
-      //dispatch(getChannelChatMessages(contact.channelId, 10, '2020-12-19', this.props.fromContact.email));
-
-    if(chatProps.recentContacts[chatProps.recentContacts.findIndex(x => x.email == contact.email)])
-      setDraftContact({})
-        
-    
-
-    console.log("chatProps.messageList :"+chatProps.messageList)
-    
+ 
+    if(recentContacts[recentContacts.findIndex(x => x.email == contact.email)]){
+        setDraftContact({})
+    }
+      
   }
 
   const sendMessage = (message) => {
+      
     const messageDTO = {
         "message": message,
-        "user_id": chatProps.fromContact.email,
+        "user_id": fromContact.email,
         "date":"2021-01-11",
-        "to_contact": chatProps.toContact.email
+        "to_contact": toContact.email
       }
-
-      alert(JSON.stringify(messageDTO))
-
-      //dispatch(sendChatMessages(messageDTO))
-    
+ 
     if (Object.keys(draftContact).length > 0) {
         const contactInfoDTO = {
             user_id: draftContact.userId,
-            user_email_id: chatProps.fromContact.email,
+            user_email_id: fromContact.email,
             contact_email_id: draftContact.email,
             first_name: draftContact.firstName,
             last_name: draftContact.lastName,
             unread_message_count: null,
             updated_at: null
         }
-        dispatch(addContactAndSendMessage(contactInfoDTO,messageDTO))
-
+        addContactAndSendMessage(contactInfoDTO,messageDTO)
+ 
     } else {
-      dispatch(sendChatMessages(messageDTO))
+        sendChatMessages(messageDTO)
     }
     
-    
-    
 }
-
+ 
+const addContactAndSendMessage = (contact,message) => {
+    const res = axios.post("/api/v1.0/contact/addContact", contact).then(result => {
+        axios.post("/api/v1.0/chat", message)
+        setDraftContact({})
+    })
+}
+ 
+const sendChatMessages = (chatMessageDTO) => {
+    const res = axios.post("/api/v1.0/chat", chatMessageDTO);
+ };
+ 
 const hideOrShowContact = (state) =>{
         
   if(state){
@@ -247,23 +237,14 @@ const hideOrShowContact = (state) =>{
       setDisplayChat('inline')
   }
 }
-
-  
-  //const contactHandler = new EventSource('http://192.168.20.30:9089/api/v1.0/recent-contacts/pratap@zkteco.in');
-  
-  
-  //contactHandler.onmessage = e => synchRecentContact(JSON.parse(e.data))
-
-  
-  //alert(JSON.stringify(chatProps))
-
+ 
   scheme.configureHeader(builder => {
     builder.create('appHeader').registerConfig('xs', {
       position: 'relative',
       initialHeight: 60,
     });
   });
-
+ 
   scheme.configureEdgeSidebar(builder => {
     builder
       .create('primarySidebar', { anchor: 'left' })
@@ -271,6 +252,10 @@ const hideOrShowContact = (state) =>{
         width: '25%',
         collapsible: true,
         collapsedWidth: '70px',
+        '&:hover': {
+          collapsedWidth: '100%',
+        },
+ 
       });
   });
   scheme.enableAutoCollapse('primarySidebar', 'sm');
@@ -281,96 +266,149 @@ const hideOrShowContact = (state) =>{
         width: '33%',
       });
   });
-
+ 
   var draftContactItem;
 
-  if (Object.keys(draftContact).length > 0) {
-    draftContactItem = <ChatListItem {...draftContact} onClick={selectChatContact} contact={draftContact}/>
-  }
-  return (
-    <Fullscreen className={styles.fullscreen}>
-      <Root theme={theme} scheme={scheme}>
-        {({ state: { sidebar } }) => (
-          <>
-            <CssBaseline />
+if (Object.keys(draftContact).length > 0) {
+  draftContactItem = <ChatListItem {...draftContact} onClick={selectChatContact} contact={draftContact}/>
+}
+return (
+  <Fullscreen className={styles.fullscreen}>
+    <Root theme={theme} scheme={scheme}>
+      {({ state: { sidebar } }) => (
+        <>
+          <CssBaseline />
 
-            <Header className={styles.header}>
-              <Toolbar disableGutters>
-                <ConversationHead primary={chatProps.toContact ? chatProps.toContact.firstName : ''}/>
-              </Toolbar>
-            </Header>
+          <Header className={styles.header}>
+            <Toolbar disableGutters>
+              <ConversationHead primary={toContact ? toContact.firstName : ''}/>
+            </Toolbar>
+          </Header>
 
-            <DrawerSidebar sidebarId={'primarySidebar'} PaperProps={{ className: styles.sidebar }}>
-              {sidebar.primarySidebar.collapsed ? (
-                <>
-                  <Box display="flex" p={1}>
-                    <Box p={1}>
-                      <Avatar src={'https://i.pravatar.cc/300?img=13'} />
-                    </Box>
-                    <Box p={1} flexGrow={1} className={styles.messageHeader}>
-                      Messages
-                    </Box>
-                    <Box p={1}>
-                      <IconButton className={styles.edit}>
-                        <AddOutlinedIcon />
-                      </IconButton>
-                    </Box>
+          <DrawerSidebar sidebarId={'primarySidebar'} PaperProps={{ className: styles.sidebar }}>
+            {sidebar.primarySidebar.collapsed ? (
+              <>
+                <Box display="flex" p={1}>
+                  <Box p={1}>
+                    <Avatar src={'https://i.pravatar.cc/300?img=13'} />
                   </Box>
-                  <Box textAlign={'center'} my={1} display='flex' p={1} >
-                  <MessengerSearch getContactSuggestions = {(data) => searchContact(data)} queryAction = {(data) =>handleContact(data)}/>
-                    
+                  <Box p={1} flexGrow={1} className={styles.messageHeader}>
+                    Messages
                   </Box>
-                </>
-              ) : (
-                 
-                    <Box display='flex' p={1}>
-                      <MessengerSearch getContactSuggestions = {(data) => searchContact(data)} queryAction = {(data) =>handleContact(data)}/>
-                     
-                      <IconButton className={styles.edit}>
-                        <AddOutlinedIcon />
-                      </IconButton>
-                    </Box>
-            
-                )}
-              {draftContactItem}
-              <ChatList concise={sidebar.primarySidebar.collapsed} data={chatProps.recentContacts} onClick={selectChatContact}/>
-            </DrawerSidebar>
+                  <Box p={1}>
+                    <IconButton className={styles.edit}>
+                      <AddOutlinedIcon />
+                    </IconButton>
+                  </Box>
+                </Box>
+                <Box textAlign={'center'} my={1} display='flex' p={1} >
+                <MessengerSearch getContactSuggestions = {(data) => searchContact(data)} queryAction = {(data) =>handleContact(data)}/>
+                  
+                </Box>
+              </>
+            ) : (
+               
+                  <Box display='flex' p={1}>
+                    <MessengerSearch getContactSuggestions = {(data) => searchContact(data)} queryAction = {(data) =>handleContact(data)}/>
+                   
+                    <IconButton className={styles.edit}>
+                      <AddOutlinedIcon />
+                    </IconButton>
+                  </Box>
+          
+              )}
+            {draftContactItem}
+            <ChatList concise={sidebar.primarySidebar.collapsed} data={recentContacts} onClick={selectChatContact}/>
+          </DrawerSidebar>
 
-            <Content>
-              <ChatDialog messageList={messageList} to={chatProps.toContact}/>
-            </Content>
+          <Content>
+            <ChatDialog messageList={messageList} to={toContact}/>
+          </Content>
 
-            <InsetFooter ContainerProps={{ disableGutters: true }} className = {styles.footer}>
-              <Box display={'flex'} alignItems={'center'} p={1}>
-                <ChatBar concise={sidebar.primarySidebar.collapsed} onClick={sendMessage}/>
-              </Box>
-            </InsetFooter>
-          </>
-        )}
-      </Root>
-    </Fullscreen>
-  );
+          <InsetFooter ContainerProps={{ disableGutters: true }} className = {styles.footer}>
+            <Box display={'flex'} alignItems={'center'} p={1}>
+              <ChatBar concise={sidebar.primarySidebar.collapsed} onClick={sendMessage}/>
+            </Box>
+          </InsetFooter>
+        </>
+      )}
+    </Root>
+  </Fullscreen>
+);
 };
 
-const mapStateToProps = state => ({
-  contactList: state.im.contactList,
-  recentContacts: state.im.recentContacts,
-  fromContact: state.im.fromContact,
-  toContact: state.im.toContact,
-  draftContact: state.im.draftContact,
-  messageList: state.im.messageList
-});
 
-export default compose(connect(mapStateToProps, {
-  addContact, 
-  getAllRecentConversations, 
-  selectContact, 
-  clearDraftContact, 
-  getPrivateChatMessages, 
-  getChannelChatMessages,
-  clearChat, 
-  setRecentContacts, 
-  setPrivateChatMessages,
-  addContactAndSendMessage,
-  sendChatMessages}
-  ))(Messages);
+Messages.defaultProps = {
+    config: {imServiceUrl: "http://localhost:9089"},
+    contacts: [
+        { firstName: "Harshitha",lastName:"P", email: "harshitha@zkteco.in" , userId : "harshitha"},
+        { firstName: "Vinay",lastName:"Gy", email: "vinay@zkteco.in", userId : "vinay" },
+        { firstName: "Pratap",lastName:"G", email: "pratap@zkteco.in", userId : "pratap" },
+        { firstName: "Vinod",lastName:"Choudhari", email: "vinodchoudhari@zkteco.in", userId : "vinodchoudhari" },
+        { firstName: "Vincen",lastName:"wen", email: "vincen.wen@zkteco.in", userId : "vincen" },
+        { firstName: "Nanigopal",lastName:"Jena", email: "Nanigopal@zkteco.in", userId : "Nanigopal" }
+      ],
+    toContact: {},
+    draftContact: {},
+    user: {
+        firstName: "Pratap", email: "pratap@zkteco.in", userId : "pratap@zkteco.in"
+    },
+    recentContacts: [
+        {
+            "email": "harshitha@zkteco.in",
+            "firstName": "Harshitha",
+            "lastName": "P",
+            "sentTime": "2021-02-11",
+            "unreadMessageCount": 1,
+            "message": "ggjghj",
+            "id": "0798f3af-07a4-4dac-a417-eefee695c99d"
+          },
+          {
+            "email": "vinay@zkteco.in",
+            "firstName": "Vinay",
+            "lastName": "Gy",
+            "sentTime": "2021-02-09",
+            "unreadMessageCount": 0,
+            "message": "123",
+            "id": "2e6eb0d0-aa89-4370-90b6-6aa8a58627ca"
+          }
+    ],
+    messageList: [],
+    getOrganizationContact: (query) => {
+      const contacts = [
+        { firstName: "Harshitha",lastName:"P", email: "harshitha@zkteco.in" , userId : "harshitha"},
+        { firstName: "Vinay",lastName:"Gy", email: "vinay@zkteco.in", userId : "vinay" },
+        { firstName: "Pratap",lastName:"G", email: "pratap@zkteco.in", userId : "pratap" },
+        { firstName: "Vinod",lastName:"Choudhari", email: "vinodchoudhari@zkteco.in", userId : "vinodchoudhari" },
+        { firstName: "Vincen",lastName:"wen", email: "vincen.wen@zkteco.in", userId : "vincen" },
+        { firstName: "Nanigopal",lastName:"Jena", email: "Nanigopal@zkteco.in", userId : "Nanigopal" }
+      ]
+  
+      if (!query) return [];
+      var result = []; 
+      contacts.map((data,index) => {
+          if (data.email.includes(query)) {
+            data.title = data.firstName+" "+data.lastName;
+            result.push(data);
+          }
+      });
+      return result;
+    }
+  };
+ 
+/*
+    variant, href, as, type, value, size, block, active, disabled, onClick
+*/
+ 
+Messages.propTypes = {
+    config: PropTypes.object,
+    contacts: PropTypes.array,
+    toContact: PropTypes.object,
+    draftContact: PropTypes.object,
+    user: PropTypes.object,
+    recentContacts: PropTypes.array,
+    messageList: PropTypes.array,
+    getOrganizationContact: PropTypes.func
+};
+ 
+export default Messages;

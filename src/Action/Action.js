@@ -9,8 +9,6 @@ export const addContact = (contact, recentContacts) => async dispatch => {
     });
 }
 
-
-
 export const clearAllRecentContact = () => async dispatch => {
     dispatch({
         type: "GET_RECENT_CONTACTS",

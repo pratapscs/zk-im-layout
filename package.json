@@ -1,6 +1,6 @@
 {
   "name": "zk-im-layout",
-  "version": "0.1.8",
+  "version": "0.2.1",
   "description": "Instantly build dynamic and responsive layout based on React Material-UI",
   "main": "dist/index.js",
   "repository": {
@@ -78,6 +78,7 @@
     "@mui-treasury/styles": "^1.13.1",
     "axios": "^0.21.1",
     "csstype": "^2.6.10",
+    "react-draggable": "^4.4.3",
     "react-redux": "^7.2.2",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",

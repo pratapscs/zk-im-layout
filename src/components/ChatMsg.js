@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import cx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
@@ -8,7 +8,10 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import TagFaces from '@material-ui/icons/TagFaces';
 import Reply from '@material-ui/icons/Reply';
-import MoreHoriz from '@material-ui/icons/MoreHoriz';
+import AccountCircleOutlinedIcon from '@material-ui/icons/AccountCircleOutlined';
+import ReplyTextField from './ReplyTextField';
+import EditTextField from './EditTextField';
+import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 
 const useStyles = makeStyles(({ palette, spacing }) => {
   const radius = spacing(2.5);
@@ -84,15 +87,60 @@ const useStyles = makeStyles(({ palette, spacing }) => {
         fontSize: 20,
       },
     },
+    actionButton: {
+      padding: '2px 2px 2px 2px',
+      margin: '10px 10px 10px 10px',
+    },
     image: {
       maxWidth: 120,
       maxHeight: 120,
     },
+    replyFieldText: {
+      display: 'flex',
+      alignItems: 'center',
+      width: '100%',
+    }
   };
 });
 
 const ChatMsg = ({ avatar, messages, side }) => {
   const styles = useStyles();
+  const [replyOpen, setReplyOpen] = useState(false);
+  const [editOpen, setEditOpen] = useState(false);
+
+  const useOutsideAlerter = (ref) => {
+    useEffect(() => {
+      /**
+       * Alert if clicked on outside of element
+       */
+      const handleEscapeClick = (event) => {
+        if (event.key === 'Escape') {
+          setEditOpen(false);
+          setReplyOpen(false);
+        }
+      }
+      function handleClickOutside(event) {
+        if (ref.current && !ref.current.contains(event.target)) {
+          setEditOpen(false);
+          setReplyOpen(false);
+        }
+      }
+
+      // Bind the event listener
+      document.addEventListener("mousedown", handleClickOutside);
+      document.addEventListener('keydown', handleEscapeClick);
+      return () => {
+        // Unbind the event listener on clean up
+        document.removeEventListener("mousedown", handleClickOutside);
+        document.removeEventListener('keydown', handleEscapeClick);
+      };
+    }, [ref]);
+  }
+
+
+  const wrapperRef = useRef(null);
+  useOutsideAlerter(wrapperRef);
+
   const attachClass = index => {
     if (index === 0) {
       return styles[`${side}First`];
@@ -102,7 +150,21 @@ const ChatMsg = ({ avatar, messages, side }) => {
     }
     return '';
   };
+
+  const handleReplyClicked = (i) => {
+    setReplyOpen(!replyOpen);
+    setEditOpen(false)
+  }
+  const handleEditClicked = () => {
+    setReplyOpen(false)
+    setEditOpen(
+      {
+        editOpen: !editOpen,
+      })
+  }
+
   return (
+  <>
     <Grid
       container
       spacing={2}
@@ -123,12 +185,35 @@ const ChatMsg = ({ avatar, messages, side }) => {
             >
               <div className={cx(styles.msgBox, styles[`${side}MsgBox`])}>
                 {typeof msg === 'string' && (
-                  <Typography
-                    align={'left'}
-                    className={cx(styles.msg, styles[side], attachClass(i))}
-                  >
-                    {msg}
-                  </Typography>
+                  <>
+                    {editOpen ? <Grid
+                      container
+                      spacing={2}
+                      justify={side === 'right' ? 'flex-end' : 'flex-start'}
+                    >
+                      <Grid item xs >
+                        <>
+                          <div ref={wrapperRef}>
+                            <EditTextField />
+                            <Button variant="contained" color="primary" className={styles.actionButton} >
+                              Save
+                             </Button>
+                            <Button variant="contained" color="secondary" className={styles.actionButton} onClick={() => setEditOpen(false)}>
+                              cancel
+                             </Button>
+                          </div>
+                        </>
+
+                      </Grid>
+                    </Grid> :
+                      <Typography
+                        align={'left'}
+                        className={cx(styles.msg, styles[side], attachClass(i))}
+                      >
+                        {msg}
+                      </Typography>
+                    }
+                  </>
                 )}
                 {typeof msg === 'object' && msg.type === 'image' && (
                   <img className={styles.image} alt={msg.alt} {...msg} />
@@ -136,11 +221,11 @@ const ChatMsg = ({ avatar, messages, side }) => {
                 <IconButton className={styles.iconBtn}>
                   <TagFaces />
                 </IconButton>
-                <IconButton className={styles.iconBtn}>
-                  <Reply />
+                <IconButton className={styles.iconBtn} onClick={handleEditClicked}>
+                  <EditOutlinedIcon />
                 </IconButton>
                 <IconButton className={styles.iconBtn}>
-                  <MoreHoriz />
+                  <Reply onClick={() => handleReplyClicked(i)} />
                 </IconButton>
               </div>
             </div>
@@ -148,6 +233,31 @@ const ChatMsg = ({ avatar, messages, side }) => {
         })}
       </Grid>
     </Grid>
+    <Grid
+    container
+    spacing={2}
+    justify={side === 'right' ? 'flex-end' : 'flex-start'}
+  >
+    <Grid item xs >
+      {replyOpen ? (
+        <>
+          <div className={styles.replyFieldText} ref={wrapperRef}>
+            <IconButton>
+              <AccountCircleOutlinedIcon />
+            </IconButton>
+            <ReplyTextField />
+          </div>
+          <Button variant="contained" color="primary" className={styles.actionButton} >
+            Send
+      </Button>
+          <Button variant="contained" color="secondary" className={styles.actionButton} onClick={() => setReplyOpen(false)}>
+            cancel
+      </Button>
+        </>
+      ) : null}
+    </Grid>
+  </Grid>
+</>
   );
 };
 
