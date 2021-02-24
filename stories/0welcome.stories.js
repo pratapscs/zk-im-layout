@@ -12,17 +12,17 @@ storiesOf('Welcome', module)
     <Box maxWidth={700} p={2} mx={'auto'}>
       <Typography variant={'overline'}>INTRODUCING</Typography>
       <Typography weight={'bold'} variant={'h4'} gutterBottom>
-        IM Service <Link underline={'none'}>Layout</Link>
+        IM Application <Link underline={'none'}>Framework</Link>
       </Typography>
       <Typography gutterBottom>
-        <b>Version 0.1.0</b>
+        <b>Version 0.2.3</b>
       </Typography>
       <br />
       <Typography weight={'bold'} variant={'h5'} gutterBottom>
         <b>{"Let's start with Why?"}</b>
       </Typography>
       <Typography gutterBottom>
-        I created this because
+        IM Application Framework created because
         <br />
       </Typography>
       <Typography component={'div'}>
@@ -42,9 +42,8 @@ storiesOf('Welcome', module)
       </Typography>
       <br />
       <Typography weight={'bold'} variant={'h5'} gutterBottom>
-        <b>components List</b>
+        <b>Components List</b>
       </Typography>
-      <Typography>Separate IM Service layout into multiple components</Typography>
       <Typography component={'div'}>
         <ul>
           <li>Top Container Component - LeftSidebar - Desktop layout</li>
@@ -66,13 +65,11 @@ storiesOf('Welcome', module)
       </Typography>
 
       <Typography>
-        <b>Chat Component</b> will provide context to other components to sync states
-        across them.
+        <b>Chat Component</b> will provide all the chat related components.
       </Typography>
 
       <Typography>
-        <b>Meeting Component</b> will provide context to other components to sync states
-        across them.
+        <b>Meeting Component</b> will provide all the meeting related components.
       </Typography>
 
       <br />

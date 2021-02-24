@@ -381,7 +381,7 @@ Messages.defaultProps = {
         { firstName: "Pratap",lastName:"G", email: "pratap@zkteco.in", userId : "pratap" },
         { firstName: "Vinod",lastName:"Choudhari", email: "vinodchoudhari@zkteco.in", userId : "vinodchoudhari" },
         { firstName: "Vincen",lastName:"wen", email: "vincen.wen@zkteco.in", userId : "vincen" },
-        { firstName: "Nanigopal",lastName:"Jena", email: "Nanigopal@zkteco.in", userId : "Nanigopal" }
+        { firstName: "Nanigopal",lastName:"Jena", email: "Nanigopal@zkteco.in", userId : "Nanigopal" },
       ]
   
       if (!query) return [];
